@@ -218,7 +218,7 @@ my_tuple = (1, 2, 3, 4)
 * 不可更改的 list
 * record：(经度, 纬度) (用户名, 密码)
 
-### Tuple unpacking
+### Tuple unpacking 元组拆包
 
 两种 tuple unpacking 的方式：
 
@@ -230,6 +230,16 @@ city, year, pop, chg, area = ("Tokyo", 2003, 32450, 0.66, 8014)
 traveler_ids = [("USA", "123456"), ("CHINA", "1222")]
 for passport in sorted(traveler_ids):
     print("%s/%s", passport)
+```
+
+元组拆包性质多用于对于元素为元组的 sequence 的遍历：
+
+```python
+# 获取每个元组的第一个元素
+list1 = [(1,2,3), (3,4,5), (4,5,6)]
+for a, *others in list1:
+    print(a)
+    print(others) # [2,3] [4,5] [5,6]
 ```
 
 tuple unpacking 的一个优雅的应用：交换两个数的值
@@ -403,7 +413,7 @@ a = array.array(a.typecode, sorted(a))
 
 ## Numpy and SciPy
 
-Numpy == Number + Python 读作 num + py (nangpai)
+Numpy == Numerical  Python 读作 num + py (nangpai)
 
 当我们需要对数字类型的 sequence 进行复杂的操作时，例如向量的分解，向量的乘除法时，就需要用到 Numpy。
 
