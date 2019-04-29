@@ -405,6 +405,8 @@ a = array.array(a.typecode, sorted(a))
 
 Numpy == Number + Python 读作 num + py (nangpai)
 
+当我们需要对数字类型的 sequence 进行复杂的操作时，例如向量的分解，向量的乘除法时，就需要用到 Numpy。
+
 
 
 
