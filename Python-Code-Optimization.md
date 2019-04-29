@@ -1,5 +1,7 @@
 # Python-Code-Optimization
 
+[TOC]
+
 ## 为什么要看 Fluent-Python
 
 深入的学习 Python，才能了解这门语言的精髓，才能优雅的使用 Python。
@@ -29,6 +31,33 @@ print(id(ss)) # 1746961939120
 那么就会重新开辟一块空间。这是一个小得不能再小的细节，很多人并不会很在意，毕竟一个小小的字符串并不会占用很大的内存空间。但是，如果我们在工作中，遇到了很长的 ss 呢（假设1KB）？而且需要频繁对 ss 进行扩展呢(一万次)？如果按照我们平时的第二种写法，那么我们每一次扩展，都是对原字符串的一次深拷贝，那么第一次拷贝内存成本都会上升，即使每次添加的字符并不多，那么拷贝一万次后，内存里至少会产生 10MB 的垃圾。如果这个脚本每隔 10 分钟就要跑一次，那么每隔 10 分钟就会产生 10MB 的垃圾（这里不考虑垃圾回收机制）。长此以往，计算机的内存就会被吃空。
 
 ## 内存优化
+
+### Python 内存优化工具 memory_profiler
+
+[pypi](<https://pypi.org/project/memory-profiler/>)
+
+**安装**
+
+```
+pip install memory_profiler
+```
+
+**使用**
+
+[pypi](<https://pypi.org/project/memory-profiler/>) 上有详细介绍，这里记录一下最常用的方法: 在程序内导入该包，然后加 `@profile` 的 flag
+
+```python
+from memory_profiler import profile
+
+@profile
+def my_func():
+    a = [1] * (10 ** 6)
+    b = [2] * (2 * 10 ** 7)
+    del b
+    return a
+```
+
+执行完 `my_func` 后，就会将该函数的每一条语句的内存情况展示出来。
 
 ### 字符串 和 sequence 优化
 
@@ -71,6 +100,16 @@ list1 = list1 * 2
 
 `+=`， `*=` 两个运算符在 Python 中被定义为 magic operator，其会被 Python 解释器解释成 `__iadd__()` 和 `__imul__()` （其中 i 是 in-place 的意思，也就是 `就地` 的意思）两个魔法方法，而普通的 `+` 和 `*` 两个运算符，则是被 Python 解释器解释成了 `__add__()` 和 `__mul__()`，所以本质上，两个被解释成了不同的魔法方法，然后执行。
 
+### 用生成器(genexps)替换列表推导式(listcomp)
+
+Demo: 生成一个 7000 万长度的 array。
+
+```python
+floats = array("d", (random() for i in range(10**7))) # 此处用生成器的好处在于，我们并不会直接生成一个 10**7 长度的数组，这样的话，相当于占用了 double 的内存，而改用生成器的话，在生成 array 的时候，就不需要占用多余的内存，因为元素是一个一个生成的。
+```
+
+
+
 ## 计算优化
 
 ### 频繁进行 containment check 的优化
@@ -89,7 +128,7 @@ if to_check_str in set(["a", "b", "c"]):
 if to_check_str in ["a", "b", "c"]:
 ```
 
-注意：set 并不是 sequence
+注意：set 并不是 sequence，实际上，这是利用空间来优化时间复杂度的一个算法。
 
 ## 语法优化
 
@@ -97,13 +136,11 @@ if to_check_str in ["a", "b", "c"]:
 
 在括号 `[]{}()`类的换行，都不需要加入换行符 `\`，所以我们可以通过在括号内换行，写出更有层次感和可读性的列表推导式。
 
-
-
 ## API Convention
 
 ### In-place method
 
-Functions or methods that change an object in place should return None to make it clear to the caller that the object itself was changed and no new object was created.
+Functions or methods that change an object in place should return None to make it clear to the caller that the object itself was changed and no new object was created. 这也是一个内存优化点。
 
 For example:
 
