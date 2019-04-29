@@ -10,23 +10,31 @@ Python 中的 Sequences 按照不同 traits(特征)，可以分成很多类
 
 * Contrainer Sequences
 
-  Demo: list, tuple, collections.deque
+  Demo: `list, tuple, collections.deque`
 
 * Flat Sequences
 
-  Demo: str, bytes, bytearray, memoryview, array,array
+  Demo: `str, bytes, bytearray, memoryview, array,array`
+
+  优点：节约内存，速度快，便于使用
+
+  缺点：只能存储原子数据
 
 **分类依据**: 元素是否可变
 
 * Mutable Sequences
 
-  Demo: list, bytearray, array.array, collections.deque, memoryview
+  Demo: `list, bytearray, array.array, collections.deque, memoryview`
 
 * Immutable Sequences
 
-  Demo: str, tuple, bytes
+  Demo: `str, tuple, bytes`
 
 注意，字符串 str 也是 sequence 类型。
+
+## Summary
+
+* Mastering the standard library sequence types is a prerequisite for writing concise effective, and idiomatic Python code.
 
 ## Sequences 常用方法
 
@@ -212,11 +220,10 @@ my_tuple = (1, 2, 3, 4)
 
 * 在 tuple 中加入 mutable 的元素，是不建议的，容易触发异常
 
-### Tuple 常见的应用场景
+### Tuple 的两个应用场景
 
-* 从数据库中读取出来的数据，也是一条 record
-* 不可更改的 list
-* record：(经度, 纬度) (用户名, 密码)
+* 不可更改的 immutable list
+* record：(经度, 纬度) (用户名, 密码)（从数据库中读取出来的数据）
 
 ### Tuple unpacking 元组拆包
 
@@ -247,6 +254,14 @@ tuple unpacking 的一个优雅的应用：交换两个数的值
 ```python
 a, b = b, a
 # 实际上，右边的 b, a 是一个元组，将右边的元组 unpack 到左边
+```
+
+注意，当我们想要获取 tuple 的元素时，对其进行 unpacking 是最快速的方式。`*` 可以帮助我们更方便的 unpacking，忽略不重要的字段，保留我们想要处理的字段，例如：
+
+```python
+tuple1 = 1,2,3,4,5
+a, *b, c = tuple1
+print(a, c) # 
 ```
 
 ### Named Tuple
@@ -358,7 +373,7 @@ bisect.insort(sorted_list, 4) # 往 sorted_list 插入一个数字，并保持�
 
 注意：bisect 只对按照正序排序的列表生效，也就是所 sorted_list 必须是正序的。
 
-## array,array
+## array.array
 
 [Tutorial](<https://docs.python.org/2/library/array.html>)
 
@@ -415,7 +430,54 @@ a = array.array(a.typecode, sorted(a))
 
 Numpy == Numerical  Python 读作 num + py (nangpai)
 
-当我们需要对数字类型的 sequence 进行复杂的操作时，例如向量的分解，向量的乘除法时，就需要用到 Numpy。
+当我们需要对数字类型的 sequence 进行复杂的操作时，例如向量的分解，向量的乘除法时，就需要用到 Numpy。Numpy 是 SciPy 和 Pandas 的基础。
+
+SciPy 是基于 Numpy 的一个库，其提供了更多关于线性代数/数值计算和统计的工具，其底层调用的是 C 和 Fortran 的库。
+
+## Deques
+
+通过对 list 进行 `.append()` 和 `.pop(index)`，我们可以实现栈或队列。例如，我们可以通过如下的方法，实现一个队列：
+
+```python
+queue = [1,2,3,4]
+queue.append(5) # 入队
+queue.pop(index=0) # 出队
+```
+
+但是用以上的方法实现队列，有一个很大的问题：每一次出队，queue 中所有的元素，都要往前移一位，时间复杂度是 `O(n)`。
+
+Python 的标准库自带了一个 **双端队列** 的实现：`collections.deque`，`collections.deque` 是一个**线程安全**的双端队列，其被设计用来快速的在双端进行插入和删除。`deque` 还有一个特性，当一端的插入导致队列满了后，`deque`会抛弃另一端的数据。
+
+Demos:
+
+```python
+from collections import deque
+dq = deque(range(10), maxlen=10) # 初始化一个 双端队列，可以不给出 maxlen
+print(dq) # deque([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], maxlen=10)
+
+# rotate(n) 当 n > 0 时，其功能为从 deque 的右边取出 n 个数，移动到左边，当 n<0时，其功能为从左边取出 -n 个数，移动到右边
+dq.rotate(3) 
+print(dq) # deque([7, 8, 9, 0, 1, 2, 3, 4, 5, 6], maxlen=10)
+dq.rotate(-4)
+print(dq) # deque([1, 2, 3, 4, 5, 6, 7, 8, 9, 0], maxlen=10)
+
+# 从左端插入，append() 是默认右端插入
+dq.appendleft(-1) 
+print(dq) # deque([-1, 1, 2, 3, 4, 5, 6, 7, 8, 9], maxlen=10)
+# 默认从右端扩展
+dq.extend([11,12,13,14])
+print(dq) # deque([4, 5, 6, 7, 8, 9, 11, 12, 13, 14], maxlen=10)
+
+# 从左端扩展，要注意的是，extendleft 是 iterate 的操作，所以插入后是逆序的
+dq.extendleft([10,20,30,40])
+print(dq) # deque([40, 30, 20, 10, 4, 5, 6, 7, 8, 9], maxlen=10)
+
+# 双端弹出数据的操作，
+dq.pop() # 右端弹出数据
+dq.popleft() # 左端弹出数据
+```
+
+`collections.deque` 实现了 list 的大多数方法，并且对双端的插入和删除进行了优化，但是需要注意的是，删除 deque 的中部的数据，会是比较耗时的操作。另外，deque 不支持 `pop(index)` 的操作，因为 index 对于 deque 并没有意义，其双端的 index 都是不固定的。
 
 
 
