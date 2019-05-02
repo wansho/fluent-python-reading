@@ -339,6 +339,14 @@ print(filename) # test.h
    *head, a, b, c = range(5) # [0, 1], 2, 3, 4
    ```
 
+### enumerate() built in function
+
+enumerate() 接收一个 Iterative Sequence，生成一个包含 index 的生成器，生成器生成的元素是 `tuple (index, sequence[index])`，其常见的 Demo 为：
+
+```python
+for index, value in enumerate(["a", "b", "c"]):
+    print(index, value)
+```
 
 ## list.sort 和 sorted
 
@@ -372,6 +380,8 @@ bisect.insort(sorted_list, 4) # 往 sorted_list 插入一个数字，并保持�
 ```
 
 注意：bisect 只对按照正序排序的列表生效，也就是所 sorted_list 必须是正序的。
+
+涉及到排序的问题，都可以使用内置标准模块： bisect
 
 ## array.array
 
