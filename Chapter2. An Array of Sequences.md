@@ -61,16 +61,16 @@ Python 中的 Sequences 按照不同 traits(特征)，可以分成很多类
 
 ### Why slices and range exclude the last item
 
-主要原因是，sequence 都是从 0 开始索引的，所以不包含最后一个 item，有三个好处：
+主要原因是，sequence 都是从 0 开始索引的，所以不包含最后一个 item，有几个好处：
 
-* 能方便地知道 range 生成的 list 和 slice 截取的长度
+* 能方便地知道 range 生成的 list 和 slice 截取的**长度**
 
   ```python
   range(3) # 生成一个长度为 3 的list
   my_list[: 3] # 截取一个长度为 3 的片段
   ```
 
-* 能方便地计算出 slice 后的 sequence 长度
+* 能方便地计算出 slice 后的 sequence **长度**
 
   ```python
   my_list[3: 9] # 其长度就是 9 - 3 = 6
@@ -142,7 +142,7 @@ print(my_list) = ["b", "a", "a"]
 
 ## List Comprehensions and Generator Experssion
 
-**列表推导式 listcomps 和 生成表达式 genexps**
+**列表推导式 listcomps 和 生成器表达式 genexps**
 
 ### List Comperhension(listcomp)
 
@@ -165,7 +165,7 @@ Python 3.x 对此进行了优化，
 ```python
 x = "ABC"
 my_list = [ord(x) for x in x]
-print(x) # my sweat
+print(x) # "ABC"
 print(my_list) # [65,66,67]
 ```
 
@@ -190,7 +190,7 @@ tshirts = [(size, color) for size in sizes
 
 ###Generator Experssion (genexp)
 
-生成表达式的语法和列表推导式的语法几近相同，唯一的区别在于列表推导式使用 `[] {}`，而生成表达式使用 `()`
+生成器表达式的语法和列表推导式的语法几近相同，唯一的区别在于列表推导式使用 `[] {}`，而生成表达式使用 `()`
 
 **genexp 更加节省内存**，其会用 Iterator 迭代器一个接着一个地生成元素。Demo:
 
@@ -280,7 +280,7 @@ print(tokyo.country) # JP
 print(tokyo[0]) # Tokyo，这个特性更像是 tuple
 ```
 
-`namedtuple` 的使用场景：用来快速创建一个只包含字段的类。
+**`namedtuple` 的使用场景**：用来快速创建一个只包含字段的类，可以用于存储从数据库中读取的数据。
 
 `namedtuple`的几个属性和方法：
 
@@ -352,7 +352,7 @@ for index, value in enumerate(["a", "b", "c"]):
 
 > `list.sort` sort a list in place — that is, without making a copy.
 
-`list.sort` 是一个 in place function，返回一个 None，表示其并不会创建一个新的 list.
+`list.sort` 是一个 in-place function，返回一个 None，表示其并不会创建一个新的 list.
 
 sorted(list1) 则会创建一个新的 list 并返回；并且 sorted 可以对所有可迭代的对象进行排序操作，而 list1.sort() 只能对 list 进行排序。
 
@@ -387,7 +387,7 @@ bisect.insort(sorted_list, 4) # 往 sorted_list 插入一个数字，并保持�
 
 [Tutorial](<https://docs.python.org/2/library/array.html>)
 
-array 是设计用来专门处理数字的 sequence，其在处理数值型数据的效率，要远远高于 list，其兼容 mutable sequence 的一切特性，还支持快速加载和存储，但并不是混合型类型（mixed-type）的 sequence。array 之所以效率高，是因为其底层就是 C 的数组。
+array 是设计用来专门处理数字的 sequence，其在处理数值型数据的效率，要远远高于 list，其兼容 mutable sequence 的一切特性，还支持快速加载和存储，但并不是混合型类型（mixed-type）的 sequence。array 之所以效率高，是因为其**底层就是 C 的数组**。
 
 所以，当我们需要进行数值运算的是否，我们应该使用 array.array。Demo:
 
