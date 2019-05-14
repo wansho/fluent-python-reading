@@ -128,9 +128,65 @@ if to_check_str in ["a", "b", "c"]:
 
 注意：set 并不是 sequence，实际上，这是利用空间来优化时间复杂度的一个算法。
 
+### dict 查找为空的优化 setdefault() / defaultdict
+
+Python 有三种通过 key 获取值的方式：
+
+```python
+# 第一种
+my_dict["students"]
+# 第二种
+my_dict.get("students", [])
+# 第三种
+my_dict.setdefault("students", [])
+
+# 第四种
+import collections
+my_dcit = collections.defaultdict(list) # 默认缺失值为 list，list 为 default_factory
+my_dict["students"].append("wansho")
+```
+
+其中，第二种和第三种都有处理 missing key 的方式，第二种方式常见的代码逻辑为：
+
+```python
+student_list = my_dict.get("students", []) # 第一次搜索
+student_list.append("wansho")
+my_dict["students"] = student_list # 插入数据，实际上是第二次搜索
+```
+
+实际上，第二种方式进行了两次搜索，我们再来看一下第三种方式：
+
+```python
+my_dict.setdefault("students", []).append("wansho")
+# setdefault 方法先按照 key 进行搜索 value，如果 key 不存在，则就地插入 (key, default_value)并返回 default_value 的引用，这样就避免了插入时的第二次搜索。
+```
+
+第四种方式的效率和第三种一样，不同的是其采用了 `collections.defalutdict` 来处理缺失值，下面拆解一下插入语句：
+
+```python
+my_dict["students"].append("wansho")
+# 1. 执行一遍搜索，发现 students 是 missing key
+# 2. 按照默认的缺失值类型，生成一个 list，并将 (key, default_value) 就地插入到 my_dict 中，然后返回 default_value 的引用
+# 3. default_value 加入新的数据
+```
+
+### Set 算数运算符优化
+
+灵活运用 Set 的算数运算符，比写 for 循环的效率高很多，Demo:
+
+```python
+found = len(needless & haystack)
+
+for n in needless:
+    if n in haystack:
+        found += 1
+```
+
+以上的两个块代码，在效果上等价，但是前者运用了算数运算符，其速度远大于 for 循环。 
+
 ## 语法优化
 
-## 换行
+### 换行
 
 在括号 `[]{}()`类的换行，都不需要加入换行符 `\`，所以我们可以通过在括号内换行，写出更有层次感和可读性的列表推导式。
 
@@ -149,3 +205,4 @@ list1.shuffle()
 ```
 
 但是，inplace 方法有一个缺点，就是无法实现 cascade operation.
+
