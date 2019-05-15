@@ -108,6 +108,12 @@ Demo: 生成一个 7000 万长度的 array。
 floats = array("d", (random() for i in range(10**7))) # 此处用生成器的好处在于，我们并不会直接生成一个 10**7 长度的数组，这样的话，相当于占用了 double 的内存，而改用生成器的话，在生成 array 的时候，就不需要占用多余的内存，因为元素是一个一个生成的。
 ```
 
+### 用 tuple, namedtuple 替换 dict in JSON style
+
+dict 的底层是 hashtable，其稀疏的存储会浪费大量的内存，如果我们只是暂存 record，对于查询效率没有特殊需求的话，就不能使用 dict，不仅是因为 hashtable 占用大量的内存，JSON Style 重复的 key 存储也会耗费很多不必要的空间，这种内存的消耗，在从数据库中读取数据存储成 dict in json style 时尤为明显。
+
+事实上，当我们在使用 dict 的时候，就应该下意识地考虑内存问题，是不是应该用 tuple 来替代，而不是不假思索的使用 dict。在使用 mapping types 的时候，应该始终考虑内存的效率问题。Dict 是设计被用来高效查找的，其并不适合存储，在存储的时候，考虑用 tuple 来代替！
+
 ## 计算优化
 
 ### 频繁进行 containment check 的优化
@@ -205,4 +211,79 @@ list1.shuffle()
 ```
 
 但是，inplace 方法有一个缺点，就是无法实现 cascade operation.
+
+### Inplace Operations
+
+对于数学运算符，例如:
+
+```
++, -, *, &, |
+```
+
+都可以利用 inplace 实现内存的节约：
+
+```python
+lst1 = []
+lst2 = []
+
+lst1 += lst2
+
+set1 = set()
+set2 = set()
+
+set1 |= set2
+set1 &= set2
+```
+
+## 性能优化工具
+
+### [Python 内存优化工具 memory_profiler](#Python 内存优化工具 memory_profiler)
+
+### Python Bytecode disassember
+
+**What is Bytecode**
+
+> Python source code is compiled into bytecode. The bytecode is also cached in `.pyc` files so that executing the same file is faster the second time (recompilation from source to bytecode can be avoided). This “intermediate language” is said to run on a [virtual machine](https://docs.python.org/3/glossary.html#term-virtual-machine) that executes the machine code corresponding to each bytecode. Do note that bytecodes are not expected to work between different Python virtual machines, nor to be stable between Python releases.
+
+Python 源码被编译成 bytecode，并缓存在 `.pyc` 文件中。我们在执行 Python 源码时，第二次执行往往比第一次执行要快，原因在于第二次执行的时候，不需要对源码重新编译了。Bytecode 是一个中间状态，其需要 Python 的虚拟机去翻译 Bytecode 为机器码。
+
+需要注意的是，bytecode 并不是跨 python 虚拟机平台 和 跨 Python 版本的，也就是说，bytecode(.pyc) 一旦生成，就只能在当前环境下执行。换了一个 python 虚拟机，换了一个 python 版本，那么 bytecode 就会失效。
+
+**Analysis bytecode: disassember**
+
+disassmber(dis) 用来翻译 bytecode，了解一个 Python 解释器的执行过程。
+
+Demo1:
+
+```python
+import dis
+
+def myfunc(alist):
+    return len(alist)
+
+dis.dis(myfunc)
+"""
+  2           0 LOAD_GLOBAL              0 (len)
+              2 LOAD_FAST                0 (alist)
+              4 CALL_FUNCTION            1
+              6 RETURN_VALUE
+"""
+```
+
+Demo2:
+
+```python
+import dis
+dis.dis("set([1])") # 单独的 Python 语句，需要用引号括起来
+
+"""
+  1           0 LOAD_NAME                0 (set)
+              2 LOAD_CONST               0 (1)
+              4 BUILD_LIST               1
+              6 CALL_FUNCTION            1
+              8 RETURN_VALUE
+"""
+```
+
+dis 模块可以用来洞察 python 解释器对于程序的解释过程，进而优化代码。
 
