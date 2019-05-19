@@ -196,6 +196,19 @@ for n in needless:
 
 在括号 `[]{}()`类的换行，都不需要加入换行符 `\`，所以我们可以通过在括号内换行，写出更有层次感和可读性的列表推导式。
 
+### 文件 IO
+
+with 相对于传统的 IO 语法，其**优势**在于：
+
+1. 无论文件打开是否成功，都会自动关闭文件流
+
+```python
+with open("file.txt", encoding="utf-8") as fr:
+    content = fr.read()
+```
+
+
+
 ## API Convention
 
 ### In-place method
