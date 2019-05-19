@@ -48,7 +48,7 @@ ss == s
 
 ### Python3 中定义 byte sequence
 
-### Encode and Decode
+## Encode and Decode
 
 ### 框架
 
@@ -57,6 +57,10 @@ ss == s
 **Tips**:
 
 * An encoding is an algorithm is an algorithm that converts code points to byte sequences and vice versa.
+
+### 为何要 encode
+
+encode 可以将内存中的数据进行压缩，提高存储和传输效率。
 
 ### Basic Encoders and Decoders
 

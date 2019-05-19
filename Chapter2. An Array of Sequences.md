@@ -1,5 +1,7 @@
 # Chapter2. An Array of Sequences
 
+从第二章开始，一直到第四章，都是在研究 Python 的数据结构。
+
 [TOC]
 
 ## Built-in Sequences
