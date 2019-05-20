@@ -52,4 +52,17 @@ Questions 的目的：用来回顾 Python 的重点。
 
 * dict in JSON Style 的弊端
 
-  
+
+## Chapter4. Text versus Bytes
+
+* byte，unicode 的定义，Unicode sequence 和 byte sequence 的区别是什么
+* byte 和 Unicode 如何互相转换
+* python 如何对文件进行字节读
+* Python2/Python3 默认的字符 sequence 类型
+* Python3 如何定义 Byte sequence
+* Python 默认的编码器
+* Python 如何判断文本的编码格式，如何对文本进行 byte 字节流的读写
+* Python 为何要 Encode
+* 解释 大端和小端，DOM，utf-8 和 utf-8 BOM，Unicode Sandwich
+* 正则表达式对 byte 进行匹配
+
