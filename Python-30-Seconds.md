@@ -14,7 +14,7 @@ Inspired by [30-seconds-of-code](<https://github.com/30-seconds/30-seconds-of-co
 
 #### ord()
 
-return an integer representing the Unicode code point of that character. [DOC](https://docs.python.org/3/library/functions.html?highlight=ord#ord)
+get the unicode code point of given char. [DOC](https://docs.python.org/3/library/functions.html?highlight=ord#ord)
 
 ```python
 print(ord("a")) # 97
@@ -156,4 +156,8 @@ example
 Section 3.2.1 Issue #32
 """
 ```
+
+### built-in modules
+
+### built-in operators
 

@@ -10,6 +10,12 @@
 
 每一个 Unicode char 有一个 identity: code point，code point is a number from 0 to 111411.
 
+```python
+# get unicode code point
+print(ord("a")) # 97
+print(ord('€')) # 8364
+```
+
 ### Byte Sequence
 
 ```python
