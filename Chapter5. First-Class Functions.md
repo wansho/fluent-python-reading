@@ -106,7 +106,7 @@ The common idea of **reduce**  is to apply some operation to successive items in
 
 reduce 用于对一个 sequence 进行 successive compute，从而得到一个 single value。
 
-![1558443265331](assets/1558443265331.png)
+![Reduce](assets/1558443265331.png)
 
 ```python
 from functools import reduce
