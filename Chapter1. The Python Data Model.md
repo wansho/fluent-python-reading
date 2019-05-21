@@ -42,6 +42,56 @@ Python 最大的特性，在于其语言的一致性。其定义了大量的与�
 
 通常情况下，我们应该去实现魔法方法，而不是去直接调用这些方法，尽管我们可以直接调用。只有一个魔法方法比较特殊：`__init__`用来调用父类的 init 方法
 
+### Magic methods Demo：构造向量
+
+```python
+import math
+
+class Vector():
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other):
+        return Vector(self.x + other.x, self.y + other.y)
+
+    def __bool__(self):
+        return bool(abs(self))
+
+    def __abs__(self):
+        return math.hypot(self.x, self.y)
+
+    def __mul__(self, other):
+        return Vector(self.x * other, self.y * other)
+
+    def __repr__(self):
+        return "vector(" + str(vector.x) + ", " + str(vector.y) + ")"
+
+    def __str__(self):
+        """
+        __str__ 定义后，print(object) 会被 Python 解释器解释成 print(str(object))
+        如果没有定义 __str__，那么 print(object) 和 str(object) 会被解释成 __repr__(object)
+        如果连 __repr__ 也没有定义，那么就会打印一个对象 0x 值
+        通常情况下，只需要定义 __repr__ 即可
+        :return:
+        """
+        return "hehe"
+    
+vector = Vector(3, 4)
+print(abs(vector))
+print(str(vector))
+print(vector)
+print(bool(vector))
+
+5.0
+hehe
+hehe
+True
+```
+
+
+
 ## Duck Typing
 
 > **Duck typing** in computer programming is an application of the [duck test](https://en.wikipedia.org/wiki/Duck_test)—"If it walks like a duck and it quacks like a duck, then it must be a duck"—to determine if an [object](https://en.wikipedia.org/wiki/Object_(computer_science)) can be used for a particular purpose. With normal typing, suitability is determined by an object's type. In duck typing, an object's suitability is determined by the presence of certain [methods](https://en.wikipedia.org/wiki/Method_(computer_programming)) and properties, rather than the type of the object itself.[[1\]](https://en.wikipedia.org/wiki/Duck_typing#cite_note-1)

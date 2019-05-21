@@ -16,4 +16,5 @@
 
 * [Python-Code-Optimization](./Python-Code-Optimization.md)
 * [Questions](./Questions.md)
+* [Python-30-Seconds](./Python-30-Seconds.md)
 

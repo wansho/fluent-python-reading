@@ -1,6 +1,6 @@
 # Questions
 
-Questions 的目的：用来回顾 Python 的重点。
+创建 Questions 的目的：用来快速回顾 Python 的重点。
 
 ## Chapter1. The Python Data Model
 

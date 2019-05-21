@@ -2,6 +2,8 @@
 
 从第五章开始，一直到第七章，都是在研究函数。
 
+[TOC]
+
 ## What is First-Class Functions
 
 Functions are treated like any other variable. Treating functions as objects. 
@@ -55,9 +57,11 @@ None
 
 A function that takes a function as argument or returns a function as the result is a higher-order function.
 
-传入或者返回一个函数的函数叫做 higer-order-function
+传入或者返回一个函数的函数叫做 higer-order-function。
 
-### sort()
+Higer-Order Functions: **sort, map, filter, reduce**
+
+### Demo: sort()
 
 ```python
 de reverse(word):
@@ -74,11 +78,19 @@ sorted(fruits, key=reverse) # reverse 作为一个 function
 sorted(fruits, key=len)
 ```
 
+### Tips
+
+* 在 Python3 中， **map** 和 **filter** 会返回一个 generator (iterable)对象，并不是一个 sequence
 
 
-### map()
 
-### filter()
+### Modern Replacements for map/filter/reduce
 
-### reduce()
+Chapter2 中已经指出，任何用到 map 和 filter 的地方，都可以用 列表推导式 和 生成器表达式来替换。Demo:
+
+```python
+list(map(factoria, filter(lambda n: n % 2, range(6)))) # list of factorial of odd numbers up to 5!, using both map and filter
+```
+
+
 
