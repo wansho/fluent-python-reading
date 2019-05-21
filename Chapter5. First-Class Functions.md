@@ -90,7 +90,41 @@ Chapter2 中已经指出，任何用到 map 和 filter 的地方，都可以用 
 
 ```python
 list(map(factoria, filter(lambda n: n % 2, range(6)))) # list of factorial of odd numbers up to 5!, using both map and filter
+
+from functools import reduce
+from operator import add
+reduce(add, range(100)) # 两者等价
+sum(range(100))
+
+all(iterable)
+any(iterable)
 ```
 
+**reduce**
 
+The common idea of **reduce**  is to apply some operation to successive items in a sequence, accumulating previous result, thus reducing a sequence of values to a single value.
+
+reduce 用于对一个 sequence 进行 successive compute，从而得到一个 single value。
+
+![1558443265331](assets/1558443265331.png)
+
+```python
+from functools import reduce
+from operator import add, sub
+
+reduce(add, range(10)) # 等价于 0 + 1 + 2 + ……  + 9
+reduce(sub, [1,2,3]) # 等价于 1 - 2 - 3
+```
+
+Other reducing built-ins:
+
+```python
+all(iterable) # return true if all value is true
+any(iterable) # return true if one value is true
+
+all(["1", [1], (1), {1:2}]) # true
+all(["1", [1], (1), {}]) # false
+
+any(["1", [1], (1), {}]) # true 
+```
 

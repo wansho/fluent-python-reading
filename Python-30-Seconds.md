@@ -46,6 +46,36 @@ for index, value in enumerate(["a", "b", "c"]):
 """
 ```
 
+#### functools.reduce(), all(), any()
+
+The common idea of **reduce**  is to apply some operation to successive items in a sequence, accumulating previous result, thus reducing a sequence of values to a single value.
+
+reduce 用于对一个 sequence 进行 successive compute，从而得到一个 single value。
+
+![1558443265331](assets/1558443265331.png)
+
+```python
+from functools import reduce
+from operator import add, sub
+
+reduce(add, range(10)) # 等价于 0 + 1 + 2 + ……  + 9
+reduce(sub, [1,2,3]) # 等价于 1 - 2 - 3
+```
+
+Other reducing built-ins:
+
+```python
+all(iterable) # return true if all value is true
+any(iterable) # return true if one value is true
+
+all(["1", [1], (1), {1:2}]) # true
+all(["1", [1], (1), {}]) # false
+
+any(["1", [1], (1), {}]) # true 
+```
+
+
+
 ### built-in operators
 
 #### 指数^: **
@@ -138,6 +168,10 @@ deque([40, 30, 20, 10, 4, 5, 6, 7, 8, 9], maxlen=10)
 40
 """
 ```
+
+#### operator
+
+operator 通常用于 reduce, 详见 [functools.reduce()](#functools.reduce())
 
 ## You May not Really Konw
 
