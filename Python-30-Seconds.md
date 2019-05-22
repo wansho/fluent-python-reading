@@ -173,6 +173,43 @@ deque([40, 30, 20, 10, 4, 5, 6, 7, 8, 9], maxlen=10)
 
 operator 通常用于 reduce, 详见 [functools.reduce()](#functools.reduce())
 
+#### json
+
+json module 用于处理 json 字符串和 json 文件。下面解释一下 json 包几个常见的方法：load()/dump()/loads()/dumps()
+
+dumps(): 将 dict 转成 json 字符串, dumps2string
+
+```
+import json
+data = {
+    'name' : 'ACME',
+    'shares' : 100,
+    'price' : 542.23
+}
+
+json_str = json.dumps(data)
+# '{"price": 542.23, "name": "ACME", "shares": 100}'
+```
+
+loads(): 将 json 字符串转成 dict, loads2dict
+
+```
+# 将 json 编码的字符串转换成一个 python 的数据结构，往往是 dict
+```
+
+dump(), load():  用于 读取 和 写入 json 文件。
+
+```
+# 如果你要处理的是文件而不是字符串，你可以使用 json.dump() 和 json.load() 来编码和解码JSON数据。
+# Writing JSON data
+with open('data.json', 'w') as f:
+    json.dump(data, f)
+
+# Reading data back
+with open('data.json', 'r') as f:
+    data = json.load(f)
+```
+
 ## You May not Really Konw
 
 ### built-in methods

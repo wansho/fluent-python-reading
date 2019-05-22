@@ -66,3 +66,11 @@
 * 解释 大端和小端，DOM，utf-8 和 utf-8 BOM，Unicode Sandwich
 * 正则表达式对 byte 进行匹配
 
+## Chapter5. First-Class Functions
+
+* 解释 First-Class Functions
+* 解释 High-Order Functions，有哪些常用的 High-Order Function
+* reduce 的思想，常见的 reduce 类型的方法
+* Function Object 有哪些 attribute 和 method
+* map/filter 的思想，是否可以被替换
+

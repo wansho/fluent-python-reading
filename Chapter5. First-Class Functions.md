@@ -100,6 +100,8 @@ all(iterable)
 any(iterable)
 ```
 
+![map/filter](assets/1558485596538.png)
+
 **reduce**
 
 The common idea of **reduce**  is to apply some operation to successive items in a sequence, accumulating previous result, thus reducing a sequence of values to a single value.
